@@ -4,7 +4,8 @@ from growwapi import GrowwAPI
 import pandas as pd
 from datetime import datetime, timedelta
 
-access_token = "eyJraWQiOiJaTUtjVXciLCJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzQyMjU4MDAsImlhdCI6MTc3NDE3NTYyNCwibmJmIjoxNzc0MTc1NjI0LCJzdWIiOiJ7XCJ0b2tlblJlZklkXCI6XCJkN2ZkOTc4YS1lYTdmLTQ0NDUtYTQxNi1hZDAwY2JlMjU3ZDVcIixcInZlbmRvckludGVncmF0aW9uS2V5XCI6XCJlMzFmZjIzYjA4NmI0MDZjODg3NGIyZjZkODQ5NTMxM1wiLFwidXNlckFjY291bnRJZFwiOlwiN2RiMzllYzYtNzY2Yi00YmFmLTkzMGEtMTE3M2VkMDE5ZTgyXCIsXCJkZXZpY2VJZFwiOlwiMTA4NmMxMWItOTRlNC01ODI2LTk2MzUtYjJjM2JmMzI3MGU2XCIsXCJzZXNzaW9uSWRcIjpcIjIwNTQyY2JjLTFkOWEtNDE4Yy04NTUyLTI1NDcyYTM2MjI5YlwiLFwiYWRkaXRpb25hbERhdGFcIjpcIno1NC9NZzltdjE2WXdmb0gvS0EwYk5mMzhMU0hkMHRUVlZvUHcwTHl0UmRSTkczdTlLa2pWZDNoWjU1ZStNZERhWXBOVi9UOUxIRmtQejFFQisybTdRPT1cIixcInJvbGVcIjpcIm9yZGVyLWJhc2ljLGxpdmVfZGF0YS1iYXNpYyxub25fdHJhZGluZy1iYXNpYyxvcmRlcl9yZWFkX29ubHktYmFzaWNcIixcInNvdXJjZUlwQWRkcmVzc1wiOlwiMjQwNToyMDE6ZDAwMToyODU5OmZjYzA6OGM6NjQ0ODo1NDJjLDE2Mi4xNTguNTEuMTc0LDM1LjI0MS4yMy4xMjNcIixcInR3b0ZhRXhwaXJ5VHNcIjoxNzc0MjI1ODAwMDAwLFwidmVuZG9yTmFtZVwiOlwiZ3Jvd3dBcGlcIn0iLCJpc3MiOiJhcGV4LWF1dGgtcHJvZC1hcHAifQ.SeQqPP1xszZHQ9DiVrKSrrZ9gStSJNLYp1weFmw4gFceq45dqLg9sa4sU21ov3vb-lsAm_gvk05Q4i6vWEgZ_g"
+
+access_token = "eyJraWQiOiJaTUtjVXciLCJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzQ0ODUwMDAsImlhdCI6MTc3NDQ2MzU4MSwibmJmIjoxNzc0NDYzNTgxLCJzdWIiOiJ7XCJ0b2tlblJlZklkXCI6XCJmZGM3YTIxZC0zYWQzLTRhMzYtYTQ4Ni00YTY4MzhhYzA3MzJcIixcInZlbmRvckludGVncmF0aW9uS2V5XCI6XCJlMzFmZjIzYjA4NmI0MDZjODg3NGIyZjZkODQ5NTMxM1wiLFwidXNlckFjY291bnRJZFwiOlwiN2RiMzllYzYtNzY2Yi00YmFmLTkzMGEtMTE3M2VkMDE5ZTgyXCIsXCJkZXZpY2VJZFwiOlwiMTA4NmMxMWItOTRlNC01ODI2LTk2MzUtYjJjM2JmMzI3MGU2XCIsXCJzZXNzaW9uSWRcIjpcImY0ZTNjZTJlLThmMDUtNGFiOS1iMTNkLTBhMWNkNDZhOWZhYVwiLFwiYWRkaXRpb25hbERhdGFcIjpcIno1NC9NZzltdjE2WXdmb0gvS0EwYk5mMzhMU0hkMHRUVlZvUHcwTHl0UmRSTkczdTlLa2pWZDNoWjU1ZStNZERhWXBOVi9UOUxIRmtQejFFQisybTdRPT1cIixcInJvbGVcIjpcIm9yZGVyLWJhc2ljLGxpdmVfZGF0YS1iYXNpYyxub25fdHJhZGluZy1iYXNpYyxvcmRlcl9yZWFkX29ubHktYmFzaWNcIixcInNvdXJjZUlwQWRkcmVzc1wiOlwiMjQwNToyMDE6ZDAwMToyODU5OmM1NWY6YTAzOTpmOGQyOmVhMjUsMTcyLjcwLjIxOS42OSwzNS4yNDEuMjMuMTIzXCIsXCJ0d29GYUV4cGlyeVRzXCI6MTc3NDQ4NTAwMDAwMCxcInZlbmRvck5hbWVcIjpcImdyb3d3QXBpXCJ9IiwiaXNzIjoiYXBleC1hdXRoLXByb2QtYXBwIn0.-hkvPWX1WNfl9i3wgVmNNSKsjSj2HIWl47D8p_1f-gQQEaYKrpKSVPPXzfI5E_7FX475od9js9yWmWlbbVIm2g"
 
 groww = GrowwAPI(access_token)
 app = FastAPI()
@@ -42,6 +43,7 @@ def get_portfolio_sma():
 
     all_dfs = []
     symbols = []
+    candles_by_symbol = {}
 
     for stock in holdings["holdings"]:
         symbol = stock["trading_symbol"]
@@ -69,6 +71,17 @@ def get_portfolio_sma():
                                 f'{symbol}_sma_5',
                                 f'{symbol}_sma_10',
                                 f'{symbol}_sma_15']])
+            candles_by_symbol[symbol] = [
+                {
+                    "time":   datetime.fromtimestamp(c[0]).strftime("%Y-%m-%d"),
+                    "open":   c[1],
+                    "high":   c[2],
+                    "low":    c[3],
+                    "close":  c[4],
+                    "volume": c[5],
+                }
+                for c in candles["candles"]
+            ]
 
         except Exception as e:
             print(f"Error fetching {symbol}: {e}")
@@ -83,5 +96,6 @@ def get_portfolio_sma():
 
     return {
         "symbols": symbols,   # ["WIPRO", "RELIANCE", ...] — React needs this
-        "data": merged.to_dict(orient="records")
+        "data": merged.to_dict(orient="records"),
+        "candles": candles_by_symbol,
     }
