@@ -1,70 +1,99 @@
-# Getting Started with Create React App
+# Finscape — Portfolio Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack stock portfolio dashboard with SMA overlays and candlestick charts.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Stack
 
-### `npm start`
+| Layer    | Tech                          |
+|----------|-------------------------------|
+| Frontend | React, Recharts, Axios        |
+| Backend  | FastAPI, Python               |
+| Data     | `data_api.py` (data fetcher)  |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+```
+├── backend/
+│   ├── main.py          # FastAPI app
+│   ├── data_api.py      # Stock data fetching logic
+│   └── requirements.txt
+│
+├── frontend/
+│   └── src/
+│       └── components/
+│           └── SMAChart.jsx   # Main dashboard component
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The API will be live at `http://localhost:8000`.
 
-### `npm run eject`
+### Frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+cd frontend
+npm install
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The app will open at `http://localhost:3000`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## API Endpoints
 
-## Learn More
+| Method | Endpoint          | Description                              |
+|--------|-------------------|------------------------------------------|
+| GET    | `/portfolio/sma`  | Returns OHLC candles, close prices, and SMA (5/10/15) for all portfolio stocks |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Response shape
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```json
+{
+  "symbols": ["SUZLON", "ONGC", "..."],
+  "data": [
+    {
+      "time": "2026-03-02",
+      "SUZLON_close": 40.95,
+      "SUZLON_sma_5": 41.2,
+      "SUZLON_sma_10": 40.8,
+      "SUZLON_sma_15": 40.1
+    }
+  ],
+  "candles": {
+    "SUZLON": [
+      { "time": "2026-03-02", "open": 40.1, "high": 41.5, "low": 39.8, "close": 40.95 }
+    ]
+  }
+}
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Dashboard Features
 
-### Analyzing the Bundle Size
+- **Portfolio view** — SMA line chart + candlestick chart side by side
+- **Ticker badge grid** — click any stock badge to toggle Close / SMA 5 / SMA 10 / SMA 15 lines
+- **Expand** — click either chart card to open a fullscreen overlay (close with `← back`, click outside, or `Esc`)
+- **Portfolio / Explore** — carousel switcher with slide animation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- SMA values for the first few rows may be empty strings from the API — the frontend cleans these to `null` automatically
+- To add more stocks, update your portfolio list in `data_api.py`; the frontend picks up new symbols dynamically
