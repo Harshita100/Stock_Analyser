@@ -3,6 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from growwapi import GrowwAPI
 import pandas as pd
 from datetime import datetime, timedelta
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  
+
+API_KEY = os.getenv("API_KEY")
 
 
 access_token = "Your grow api"
@@ -12,7 +18,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "https://stockanalysers.vercel.app/"  
+    ],
     allow_methods=["*"],
     allow_headers=["*"]
 )
