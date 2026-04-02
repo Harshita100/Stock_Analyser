@@ -60,7 +60,7 @@ export default function Header({ activePage, setActivePage }) {
             <div className="flex-1" />
       
             {/* Badge */}
-            <div className="font-mono text-[10px] tracking-[0.12em] text-[#3a3a5c] uppercase">
+            <div className="font-mono text-[10px] tracking-[0.12em] text-[#fff] uppercase">
               NSE · BSE
             </div>
           </header>
