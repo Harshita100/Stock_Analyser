@@ -11,9 +11,9 @@ load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
 
-access_token = "Your grow api"
+# access_token = "Your grow api"
 
-groww = GrowwAPI(access_token)
+groww = GrowwAPI(API_KEY)
 app = FastAPI()
 
 app.add_middleware(
