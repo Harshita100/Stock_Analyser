@@ -20,7 +20,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://stocksanalyser.vercel.app/"  
+        "https://stocksanalyser.vercel.app"
     ],
     allow_methods=["*"],
     allow_headers=["*"]
